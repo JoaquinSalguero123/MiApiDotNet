@@ -1,0 +1,37 @@
+name: CD - Publicar y guardar artefacto
+
+# Solo se ejecuta cuando hay cambios en main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  publicar:
+    name: Empaquetar y Generar Artefacto
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publicar la API
+        run: dotnet publish MiApi/MiApi.csproj -c Release -o ./publish-output
+
+      - name: Guardar el artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapi-net-release
+          path: ./publish-output/
+
+      - name: Simular aviso por webhook
+        run: |
+          echo "==============================================="
+          echo "¡Empaquetado completado con éxito!"
+          echo "Artefacto listo para distribuir."
+          echo "Avisando al webhook del servidor..."
+          echo "==============================================="
