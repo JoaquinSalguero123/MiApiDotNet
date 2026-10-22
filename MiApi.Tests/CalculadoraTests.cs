@@ -7,7 +7,7 @@ public class CalculadoraTests
     [Fact]
     public void Sumar_DosNumeros_DevuelveLaSuma()
     {
-        Assert.Equal(5, _calculadora.Sumar(2, 5));
+        Assert.Equal(5, _calculadora.Sumar(2, 3));
     }
 
     [Fact]
